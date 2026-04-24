@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swarmesh — Betting Platform Security</title>
+    <meta name="description" content="I test betting platforms. Here's what I've found.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace; background: #0a0a0a; color: #e0e0e0; min-height: 100vh; }
+        .container { max-width: 680px; margin: 0 auto; padding: 60px 20px; }
+        h1 { font-size: 1.8em; color: #00ff88; margin-bottom: 4px; }
+        .handle { color: #555; font-size: 0.85em; margin-bottom: 40px; }
+        .tagline { color: #999; font-size: 1.05em; margin-bottom: 35px; line-height: 1.6; }
+        h2 { color: #00ff88; font-size: 0.95em; margin: 35px 0 12px; letter-spacing: 2px; text-transform: uppercase; }
+        .stats { display: flex; gap: 25px; margin: 20px 0 30px; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat .n { font-size: 2em; color: #00ff88; font-weight: bold; }
+        .stat .l { font-size: 0.7em; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+        .finding { border-left: 2px solid #333; padding: 10px 15px; margin: 8px 0; transition: border-color 0.2s; }
+        .finding:hover { border-color: #00ff88; }
+        .finding .t { color: #fff; font-size: 0.9em; }
+        .finding .s { color: #ff4444; font-size: 0.7em; letter-spacing: 1px; }
+        .finding .d { color: #666; font-size: 0.8em; margin-top: 4px; }
+        .platforms { color: #666; font-size: 0.85em; line-height: 1.8; }
+        .platforms span { display: inline-block; background: #111; border: 1px solid #222; padding: 2px 8px; border-radius: 3px; margin: 2px; font-size: 0.85em; }
+        .cta { background: #0a1f0a; border: 1px solid #00ff8833; padding: 25px; border-radius: 6px; margin-top: 45px; text-align: center; }
+        .cta p { color: #888; font-size: 0.85em; margin-bottom: 12px; }
+        .cta a { color: #00ff88; text-decoration: none; font-size: 1.3em; letter-spacing: 1px; }
+        .cta a:hover { text-decoration: underline; }
+        .cta .sub { color: #444; font-size: 0.75em; margin-top: 10px; }
+        .footer { text-align: center; margin-top: 50px; color: #333; font-size: 0.75em; }
+        .footer a { color: #333; }
+        @media (max-width: 500px) { .stats { gap: 15px; } .stat .n { font-size: 1.5em; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>swarmesh</h1>
+        <div class="handle">@swarmesh_net</div>
+
+        <p class="tagline">I test betting platforms.<br>Here's what I've found.</p>
+
+        <div class="stats">
+            <div class="stat"><div class="n">70+</div><div class="l">Sites Tested</div></div>
+            <div class="stat"><div class="n">4</div><div class="l">Architectures</div></div>
+            <div class="stat"><div class="n">50+</div><div class="l">Vulns Found</div></div>
+            <div class="stat"><div class="n">12</div><div class="l">Critical</div></div>
+        </div>
+
+        <h2>Findings</h2>
+
+        <div class="finding">
+            <div class="s">CRITICAL</div>
+            <div class="t">Zero-Auth Odds Source Override</div>
+            <div class="d">Unauthenticated endpoint rewrites odds validation source for any live match. 50+ sites affected.</div>
+        </div>
+
+        <div class="finding">
+            <div class="s">CRITICAL</div>
+            <div class="t">Casino Hindsight Betting</div>
+            <div class="d">Bets accepted on completed rounds where result is known. No bet-lock on certain game types.</div>
+        </div>
+
+        <div class="finding">
+            <div class="s">CRITICAL</div>
+            <div class="t">Admin API — Zero RBAC</div>
+            <div class="d">Settlement, rollback, config endpoints accessible with client JWT. Full platform takeover.</div>
+        </div>
+
+        <div class="finding">
+            <div class="s">CRITICAL</div>
+            <div class="t">Plaintext Password Storage + IDOR</div>
+            <div class="d">55,000+ user credentials exposed via unauthenticated API. Passwords stored in cleartext.</div>
+        </div>
+
+        <div class="finding">
+            <div class="s">HIGH</div>
+            <div class="t">Casino cacheURL MITM</div>
+            <div class="d">Casino game odds source redirectable to attacker proxy. Bet on known card results.</div>
+        </div>
+
+        <div class="finding">
+            <div class="s">MEDIUM</div>
+            <div class="t">Encrypted Score Feed — Hardcoded Key</div>
+            <div class="d">Live score WebSocket AES key embedded in public JS. False sense of security.</div>
+        </div>
+
+        <h2>Platforms</h2>
+        <div class="platforms">
+            <span>Node.js + MongoDB</span>
+            <span>Spring Boot + MySQL</span>
+            <span>Laravel + MySQL</span>
+            <span>ASP.NET WebForms</span>
+            <span>Socket.IO</span>
+            <span>Pusher</span>
+            <span>WebSocket</span>
+            <span>REST API</span>
+        </div>
+
+        <h2>What I Test</h2>
+        <div class="platforms">
+            <span>Odds Manipulation</span>
+            <span>Settlement Logic</span>
+            <span>Casino Timing</span>
+            <span>Auth Bypass</span>
+            <span>IDOR</span>
+            <span>API Security</span>
+            <span>WebSocket Exploits</span>
+            <span>Admin Panel Access</span>
+        </div>
+
+        <div class="cta">
+            <p>Async only. No calls. No meetings.</p>
+            <a href="https://t.me/swarmesh_net">@swarmesh_net</a>
+            <div class="sub">Telegram</div>
+        </div>
+
+        <div class="footer">
+            <a href="https://github.com/topdrift/betting-security-research">github</a>
+        </div>
+    </div>
+</body>
+</html>
