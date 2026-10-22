@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A safe framework for reviewing role and tenant checks in shared applications.">
+  <title>Authorization Boundaries in Multi-Tenant Betting Systems</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="back" href="../index.html">← All articles</a>
+      <div class="brand">Security field notes</div>
+      <h1>Authorization Boundaries in Multi-Tenant Betting Systems</h1>
+      <p class="lede">A practical framework for reviewing role and tenant checks safely, with emphasis on object ownership, token boundaries, and data minimization.</p>
+    </header>
+    <main>
+      <article>
+        <p>Multi-tenant applications can serve many brands, operators, or customer groups from shared services. That architecture can be efficient, but every request still needs a clear answer to two questions: <strong>who is making the request, and which tenant-owned object may they access?</strong> A valid login is only the beginning of that decision.</p>
+
+        <h2>Treat every object reference as untrusted</h2>
+        <p>An identifier in a URL or request body should select an object, not grant permission to it. The server should derive the caller’s identity and tenant from authenticated context, then check that the requested object belongs to that tenant and that the caller’s role allows the specific action. Apply the check to reads and writes alike, including secondary details and exported data.</p>
+        <p>For a safe assessment, use only accounts and synthetic records you control. Build a small role-and-tenant matrix: record which account owns each canary object, which roles should see it, and which operations should be denied. Confirm that a denial returns no protected data. Do not enumerate identifiers, query real users’ records, or use credentials discovered during an assessment unless the written scope explicitly permits that exact action.</p>
+
+        <h2>Keep trust boundaries consistent</h2>
+        <p>Shared infrastructure introduces another boundary: a token issued for one application or tenant should not automatically authorize requests to another. Services should validate issuer, audience, expiration, intended host or tenant, and the privileges actually needed. Signing keys and service credentials should be separated where trust domains differ, and rotated through the organization’s normal response process if exposure is suspected.</p>
+        <p>Responses should contain only the fields the caller needs. Passwords, recovery secrets, private tokens, and unrelated administrator details should never be returned as profile data. When a client needs to change a credential, use a dedicated authenticated workflow that verifies the right account and records the change safely.</p>
+
+        <h2>Make denials testable</h2>
+        <p>Consistent authorization checks are easier to maintain when they are centralized and covered by tests for both allowed and denied cases. Logs should identify the caller, tenant, object, and decision without storing secrets or excessive personal information. Alert on unusual cross-tenant access patterns, but avoid exposing sensitive identifiers in the alert itself.</p>
+        <p>When reporting a suspected access-control issue, keep proof minimal: the controlled accounts, the canary record, the expected decision, and the observed response. State clearly what was and was not accessed. This gives the owner reproducible evidence without turning a security test into a data collection exercise.</p>
+        <p>Tenant isolation is not a property of a login screen or a single endpoint. It is a decision the application must enforce every time a request crosses an object, role, or service boundary.</p>
+      </article>
+    </main>
+    <footer>Generalized defensive guidance. No target-specific details or active finding disclosures are included.</footer>
+  </div>
+</body>
+</html>
