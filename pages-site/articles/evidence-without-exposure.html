@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Make security findings reproducible while minimizing exposure of sensitive data and credentials.">
+  <title>Evidence Without Exposure: Safer Security Reporting</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="back" href="../index.html">← All articles</a>
+      <div class="brand">Security field notes</div>
+      <h1>Evidence Without Exposure: Safer Security Reporting</h1>
+      <p class="lede">How to make security findings reproducible while minimizing access to customer data, credentials, and financial systems.</p>
+    </header>
+    <main>
+      <article>
+        <p>A strong security report needs enough evidence for an owner to reproduce and fix an issue. It does not need a copy of every record an assessment could reach. In applications that handle accounts, payments, or wagers, collecting less evidence is safer and easier to review.</p>
+
+        <h2>Prove the issue with controlled data</h2>
+        <p>Use an account you own and a clearly marked synthetic record whenever possible. For authorization testing, prepare only the minimum number of researcher-controlled accounts needed to test the boundary. For financial workflows, use an isolated sandbox with non-redeemable test balances if the scope explicitly authorizes it. Avoid production financial mutations and do not read or retain other users’ records.</p>
+        <p>Capture the minimum facts that establish the behavior: test conditions, timestamp, relevant redacted request and response fields, and the expected-versus-observed result. Preserve original evidence in a restricted location when the engagement requires it, and make a separate redacted copy for discussion. Remove session cookies, bearer tokens, passwords, personal identifiers, payment details, and unrelated response data from report attachments.</p>
+
+        <h2>Handle unexpected secrets carefully</h2>
+        <p>An assessment may reveal a credential or token. Treat it as sensitive evidence, not an invitation to use it. Stop before testing it unless the written authorization expressly permits that exact action. Do not paste it into a public article, ticket, chat, or source-control commit. Tell the owner what type of exposure occurred and where it was found, using a private disclosure channel, and let the owner rotate or revoke it.</p>
+        <p>The same restraint applies to customer data. Confirm the minimum fact needed to validate the issue, avoid collecting additional records, and report counts or redacted examples instead of full datasets. If sensitive data is accidentally returned, stop, protect the evidence, and notify the owner under the agreed process.</p>
+
+        <h2>Separate evidence from speculation</h2>
+        <p>Label what was directly observed, what was inferred, and what remains untested. A server error is not automatically an exploitable vulnerability; a client-controlled field is not proof that the server trusts it; and a visible data point is not proof of a financial advantage. Be precise about account type, environment, and limits so the owner can reproduce the finding without repeating risky actions.</p>
+        <p>Finally, follow the engagement’s disclosure rules. Keep target-specific details private until the owner or program authorizes publication. Public educational writing can discuss defensive principles without naming a target, publishing an endpoint, reproducing an exploit chain, or revealing credentials and user data.</p>
+        <p>The goal is evidence that is useful to the owner and harmless to everyone else.</p>
+      </article>
+    </main>
+    <footer>Generalized defensive guidance. No target-specific details or active finding disclosures are included.</footer>
+  </div>
+</body>
+</html>
