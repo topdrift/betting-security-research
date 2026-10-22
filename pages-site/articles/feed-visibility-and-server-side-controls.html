@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to distinguish information exposure from betting-integrity issues and validate both safely.">
+  <title>A Leaked Feed Isn't Yet a Betting Exploit</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="back" href="../index.html">← All articles</a>
+      <div class="brand">Security field notes</div>
+      <h1>A Leaked Feed Isn't Yet a Betting Exploit</h1>
+      <p class="lede">How to separate information exposure from betting-integrity issues in real-time wagering systems, and validate each safely during an authorized assessment.</p>
+    </header>
+    <main>
+      <article>
+        <p>Real-time wagering platforms often split responsibilities across a live data feed, a browser or mobile client, and a server that accepts or rejects actions. Seeing useful information in one component can look alarming. It does not, by itself, prove that a user can make the server accept an unfair wager.</p>
+        <p>A careful assessment treats <strong>information exposure</strong> and <strong>action authorization</strong> as separate questions. What can the client observe? At what point in the event lifecycle? What decision does the server make when the client submits an otherwise valid action? Evidence for one question should not stand in for evidence about the other.</p>
+
+        <h2>Test the security boundary, not just the display</h2>
+        <p>Map the relevant states, such as whether a market is open, paused, suspended, or settled. Record what the test client and its data sources show in each state. Then, only within an explicitly authorized scope and using a researcher-controlled account or isolated test environment, observe how the server handles the corresponding action.</p>
+        <p>Keep evidence narrow. Record timestamps, the state visible to the test account, the response to the authorized test action, and whether the system created a resulting record. Avoid real wagers, redeemable balances, other users’ accounts, or attempts to profit from timing differences. If the program does not expressly permit an action, stop at read-only observation and report the limitation.</p>
+        <p>These observations can support different conclusions:</p>
+        <ul>
+          <li>A data source reveals information that is already public or has no practical security impact.</li>
+          <li>A feed reveals information earlier than intended, while the server still rejects actions that should not be accepted.</li>
+          <li>The server accepts an action in a state where policy says it should reject it.</li>
+          <li>The timing or state evidence is incomplete, so the result remains unconfirmed.</li>
+        </ul>
+        <p>Those outcomes deserve different severity and different reports. A visible field is not proof of a financial exploit; a rejected action is evidence that a server-side control worked in the tested case. Clear negative results help teams fix the right component.</p>
+
+        <h2>Design the server as the authority</h2>
+        <p>The server should derive market status, eligibility, price, and account context from trusted state. It should validate those facts when processing the action, apply balance and exposure changes atomically, and record a clear accepted or rejected result. Client-side timers and feed messages can improve the experience, but they must not grant permission.</p>
+        <p>Teams should make state transitions observable to authorized reviewers without exposing privileged outcome data to ordinary clients. Monitoring can flag actions attempted after a market closes, while logs should preserve enough context to investigate without recording unnecessary personal or authentication data.</p>
+        <p>Separating what a client can see from what a server will honor makes assessments more accurate and helps teams focus fixes on the component that enforces the rule.</p>
+      </article>
+    </main>
+    <footer>Generalized defensive guidance. No target-specific details or active finding disclosures are included.</footer>
+  </div>
+</body>
+</html>
